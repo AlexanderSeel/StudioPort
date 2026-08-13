@@ -47,6 +47,19 @@ public sealed record Prerequisite(string Id, string Name, string? Version, Prere
 public sealed record LicenseRequirement(string Provider, bool ActivationRequired, bool MachineBound, bool HardwareDongleSupported);
 public sealed record AssetReference(LogicalPath Path, AssetScope Scope, DiscoveryConfidence Confidence);
 
+public readonly record struct LogicalPath
+{
+    public LogicalPath(string value)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(value);
+        Value = value.Replace('\\', '/').Trim('/');
+    }
+
+    public string Value { get; }
+
+    public override string ToString() => Value;
+}
+
 public enum AssetScope
 {
     PortablePayload,
